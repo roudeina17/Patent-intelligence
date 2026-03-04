@@ -3,10 +3,10 @@ const Brevet = require("../models/Brevet");
 
 
 const CONFIG = {
-  MODE: "lens_api",
+  MODE: "simulation",  // ← temporairement
   get LENS_API_KEY() { return process.env.LENS_API_KEY?.trim(); },
-  INTERVAL_MS: 3000,   // ← 5 secondes
-  BATCH_SIZE: 3,     // ← 100 par appel
+  INTERVAL_MS: 30000,
+  BATCH_SIZE: 3,
 };
 
 // ════════════════════════════════════════════════════════════════════
