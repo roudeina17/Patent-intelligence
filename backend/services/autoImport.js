@@ -78,24 +78,25 @@ async function fetchDepuisLens() {
   const axios = require("axios");
   const token = process.env.LENS_API_KEY?.trim();
 
-  const response = await axios.post(
-    "https://api.lens.org/patent/search",
-    {
-      query: { bool: { must: [
-        { match: { "publication_type": "granted_patent" } },
-        { match: { "lang": "en" } }
-      ]}},
-      size: CONFIG.BATCH_SIZE,
-      sort: [{ "date_published": "desc" }]
-    },
-    {
-      headers: {
-        "Authorization": "Bearer " + token,
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      }
+const response = await axios.post(
+  "https://api.lens.org/patent/search",
+  {
+    query: { bool: { must: [
+      { match: { "publication_type": "granted_patent" } },
+      { match: { "lang": "en" } }
+    ]}},
+    size: CONFIG.BATCH_SIZE,
+    from: Math.floor(Math.random() * 50000), // ← page aléatoire
+    sort: [{ "date_published": "desc" }]
+  },
+  {
+    headers: {
+      "Authorization": "Bearer " + token,
+      "Content-Type": "application/json",
+      "Accept": "application/json"
     }
-  );
+  }
+);
 
   console.log("Réponse Lens:", JSON.stringify(response.data).substring(0, 300));
 
