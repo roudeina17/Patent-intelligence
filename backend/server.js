@@ -6,6 +6,7 @@ const cors = require('cors');
 const connectDB = require('./config/db');
 const { demarrerAutoImport } = require('./services/autoImport');
 const statsRoutes = require('./routes/statsRoutes');
+const PORT = process.env.PORT || 3000;
 
 const app = express();
 app.use(cors());
@@ -17,8 +18,8 @@ app.get('/test', (req, res) => {
 
 app.use('/api/stats', statsRoutes);
 
-app.listen(3000, () => {
-  console.log('🚀 Serveur sur http://localhost:3000');
+aapp.listen(PORT, () => {
+  console.log(`🚀 Serveur sur http://localhost:${PORT}`);
 });
 
 connectDB().then(() => {

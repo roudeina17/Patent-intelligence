@@ -1,7 +1,6 @@
 import axios from 'axios';
 
-const BASE = 'http://localhost:3000/api/stats';
-
+const BASE = 'https://patent-intelligence-cr52.onrender.com/api/stats';
 const api = axios.create({
   baseURL: BASE,
   headers: {
