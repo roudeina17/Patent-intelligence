@@ -18,7 +18,7 @@ app.get('/test', (req, res) => {
 
 app.use('/api/stats', statsRoutes);
 
-aapp.listen(PORT, () => {
+app.listen(PORT, () => {
   console.log(`🚀 Serveur sur http://localhost:${PORT}`);
 });
 
