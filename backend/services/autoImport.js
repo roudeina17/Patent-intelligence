@@ -4,9 +4,9 @@ const Brevet = require("../models/Brevet");
 
 const CONFIG = {
   MODE: "lens_api",
-  get LENS_API_KEY() { return process.env.LENS_API_KEY?.trim(); }, // ← .trim() !
-  INTERVAL_MS: 30000,
-  BATCH_SIZE: 3,
+  get LENS_API_KEY() { return process.env.LENS_API_KEY?.trim(); },
+  INTERVAL_MS: 3000,   // ← 5 secondes
+  BATCH_SIZE: 100,     // ← 100 par appel
 };
 
 // ════════════════════════════════════════════════════════════════════
@@ -78,24 +78,38 @@ async function fetchDepuisLens() {
   const axios = require("axios");
   const token = process.env.LENS_API_KEY?.trim();
 
-  const response = await axios.post(
-    "https://api.lens.org/patent/search",
-    {
-      query: { bool: { must: [
-        { match: { "publication_type": "granted_patent" } },
-        { match: { "lang": "en" } }
-      ]}},
-      size: CONFIG.BATCH_SIZE,
-      sort: [{ "date_published": "desc" }]
-    },
-    {
-      headers: {
-        "Authorization": "Bearer " + token,
-        "Content-Type": "application/json",
-        "Accept": "application/json"
+ const response = await axios.post(
+  "https://api.lens.org/patent/search",
+  {
+    query: {
+      bool: {
+        must: [
+          { match: { "publication_type": "granted_patent" } },
+          { match: { "lang": "en" } }
+        ],
+        filter: [
+          {
+            range: {
+              "date_published": {
+                gte: "2025-04-01",
+                lte: "2025-07-31"
+              }
+            }
+          }
+        ]
       }
+    },
+    size: CONFIG.BATCH_SIZE,
+    sort: [{ "date_published": "desc" }]
+  },
+  {
+    headers: {
+      "Authorization": "Bearer " + token,
+      "Content-Type": "application/json",
+      "Accept": "application/json"
     }
-  );
+  }
+);
 
   console.log("Réponse Lens:", JSON.stringify(response.data).substring(0, 300));
 
