@@ -167,6 +167,7 @@ function Recherche() {
           {results.length === 0 ? (
             <div style={{ color: "#94a3b8", fontSize: "0.85rem" }}>Aucun résultat.</div>
           ) : (
+            <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.82rem" }}>
               <thead>
                 <tr style={{ borderBottom: "1px solid rgba(124,58,237,0.15)" }}>
@@ -218,6 +219,7 @@ function Recherche() {
                 ))}
               </tbody>
             </table>
+            </div>
           )}
         </div>
       )}

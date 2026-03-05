@@ -46,6 +46,7 @@ useEffect(() => {
         Classement basé sur la croissance et les dépôts prédits
       </div>
 
+<div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
       <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.82rem" }}>
         <thead>
           <tr style={{ borderBottom: "1px solid rgba(124,58,237,0.15)" }}>
@@ -114,6 +115,7 @@ useEffect(() => {
           ))}
         </tbody>
       </table>
+      </div>
     </div>
   );
 }
