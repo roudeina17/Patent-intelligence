@@ -44,7 +44,7 @@ function TopAssignees() {
         marginBottom: "0.4rem"
       }}>── Classement Déposants</div>
       <div style={{ fontWeight: 700, fontSize: "1rem", marginBottom: "1.2rem", color: "#1e293b" }}>
-        Top 20 Candidats
+        Top 10 Candidats
       </div>
       <ResponsiveContainer width="100%" height={500}>
         <BarChart data={data} layout="vertical"
