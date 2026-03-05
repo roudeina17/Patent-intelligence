@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE = import.meta.env.VITE_API_URL || 'http://localhost:3000/api/stats';
+const BASE = 'https://patent-intelligence-cr52.onrender.com/api/stats';
 const api = axios.create({
   baseURL: BASE,
   headers: {
