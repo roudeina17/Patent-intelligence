@@ -212,6 +212,7 @@ if (loading) return (
               <div style={{ fontWeight: 700, fontSize: "1rem", color: "#1e293b", marginBottom: "1.2rem" }}>
                 Score d'Activité & Tendance 2024 → 2026
               </div>
+              <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
               <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.83rem" }}>
                 <thead>
                   <tr style={{ borderBottom: "1px solid rgba(124,58,237,0.15)" }}>
@@ -270,6 +271,7 @@ if (loading) return (
                   })}
                 </tbody>
               </table>
+               </div>
             </div>
           </div>
         )}
