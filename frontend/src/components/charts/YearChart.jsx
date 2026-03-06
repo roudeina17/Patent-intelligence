@@ -166,7 +166,7 @@ function YearChart() {
           </p>
         </div>
         <ResponsiveContainer width="100%" height={220}>
-          <BarChart data={kpis.parAnnee}
+          <BarChart data={[...kpis.parAnnee].sort((a, b) => a._id - b._id)}
             margin={{ left: 10, right: 20, top: 10, bottom: 0 }}>
             <XAxis dataKey="_id"
               tick={{ fill: "#64748b", fontSize: 12, fontFamily: "Space Mono" }}
