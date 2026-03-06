@@ -3,7 +3,7 @@ import { getKPIs } from "../../services/api";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
 import { SkeletonCard, SkeletonChart } from "../Skeleton";
 
-const YEAR_COLORS = ["#7c3aed", "#a855f7", "#10b981"];
+const YEAR_COLORS = ["#10b981", "#558ef7", "#7c3aed"];
 
 function YearChart() {
   const [kpis, setKpis] = useState(null);
