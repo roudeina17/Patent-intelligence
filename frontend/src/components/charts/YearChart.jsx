@@ -15,6 +15,7 @@ function YearChart() {
       try {
         const data = await getKPIs();
         setKpis(data);
+        console.log("parAnnee:", kpis.parAnnee);
       } catch (err) {
         console.error(err);
       } finally {
@@ -166,7 +167,13 @@ function YearChart() {
           </p>
         </div>
         <ResponsiveContainer width="100%" height={220}>
-          <BarChart data={[...kpis.parAnnee].sort((a, b) => a._id - b._id)}
+
+          <BarChart data={[
+  { _id: 2024, count: 34897 },
+  { _id: 2025, count: 15103 },
+  { _id: 2026, count: 50045 }
+]}
+
             margin={{ left: 10, right: 20, top: 10, bottom: 0 }}>
             <XAxis dataKey="_id"
               tick={{ fill: "#64748b", fontSize: 12, fontFamily: "Space Mono" }}
