@@ -11,17 +11,19 @@ function YearChart() {
   const [hoveredCard, setHoveredCard] = useState(null);
 
   useEffect(() => {
-    const fetchKPIs = async () => {
-      try {
-        const data = await getKPIs();
-        setKpis(data);
-        console.log("parAnnee:", kpis.parAnnee);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
+ const fetchKPIs = async () => {
+  try {
+    const data = await getKPIs();
+    if (data && data.parAnnee) {  // ← protection
+      setKpis(data);
+    }
+  } catch (err) {
+    console.error(err);
+  } finally {
+    setLoading(false);
+  }
+};
+  
 
     fetchKPIs();
     const interval = setInterval(fetchKPIs, 30000);
@@ -168,12 +170,8 @@ function YearChart() {
         </div>
         <ResponsiveContainer width="100%" height={220}>
 
-          <BarChart data={[
-  { _id: 2024, count: 34897 },
-  { _id: 2025, count: 15103 },
-  { _id: 2026, count: 50045 }
-]}
-
+          <BarChart data={[...kpis.parAnnee].sort((a, b) => a._id - b._id)}
+          
             margin={{ left: 10, right: 20, top: 10, bottom: 0 }}>
             <XAxis dataKey="_id"
               tick={{ fill: "#64748b", fontSize: 12, fontFamily: "Space Mono" }}
