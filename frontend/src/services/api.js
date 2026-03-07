@@ -7,6 +7,11 @@ const api = axios.create({
     'ngrok-skip-browser-warning': 'true'
   }
 });
+// Keep-alive : ping le backend toutes les 10 minutes
+setInterval(() => {
+  fetch('https://patent-intelligence-cr52.onrender.com/api/stats/kpis')
+    .catch(() => {}); // silencieux si erreur
+}, 10 * 60 * 1000); // 10 minutes
 
 export const getKPIs             = () => api.get('/kpis').then(res => res.data);
 export const getByYear           = () => api.get('/year').then(res => res.data);
