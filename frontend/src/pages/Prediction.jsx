@@ -307,11 +307,11 @@ if (loading) return (
                   background: "#fff", border: "1px solid rgba(124,58,237,0.2)",
                   borderRadius: "8px", fontSize: "0.8rem"
                 }} />
-                <Legend formatter={v => (
-                  <span style={{ color: "#64748b", fontSize: "0.72rem" }}>
-                    {v.replace("_pred", " (prédit)")}
-                  </span>
-                )} />
+                formatter={v => (
+  <span style={{ color: "#64748b", fontSize: "0.72rem" }}>
+    {v ? v.replace("_pred", " (prédit)") : ""}
+  </span>
+)}
                 {tendance.slice(0, 6).map((d, i) => (
                   <Line key={d._id} type="monotone"
                     dataKey={d._id?.substring(0, 18)}
