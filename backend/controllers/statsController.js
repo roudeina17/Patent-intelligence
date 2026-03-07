@@ -159,7 +159,11 @@ exports.getActiviteParAnnee = async (req, res) => {
 exports.getTopParJuridiction = async (req, res) => {
   try {
     const data = await Brevet.aggregate([
-      { $match: { "Candidats": { $ne: "" } } },
+      { $match: { 
+        "Candidats": { $ne: "" },
+        "Année de publication": { $in: [2024, 2025, 2026] }  // ← filtre années
+      }},
+      { $limit: 50000 },  // ← limite pour Atlas M0
       { $group: {
         _id: { juridiction: "$Juridiction", candidat: "$Candidats" },
         count: { $sum: 1 }
