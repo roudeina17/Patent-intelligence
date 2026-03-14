@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { getKPIs } from "../../services/api";
+import axios from "axios";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
 import { SkeletonCard, SkeletonChart } from "../Skeleton";
 
+const BASE_URL = 'https://patent-intelligence-cr52.onrender.com/api/stats';
 const YEAR_COLORS = ["#10b981", "#558ef7", "#7c3aed"];
 
 
@@ -19,10 +21,11 @@ const genererRapport = async () => {
   setLoadingRapport(true);
   setShowRapport(true);
   try {
+     console.log("kpis envoyés:", kpis);
     // Récupère les prédictions depuis l'API
-    const predRes = await axios.get(`${BASE_URL}/regression`);
+    const predRes = await axios.get(`${BASE_URL}/tendance`);
     const predictions = predRes.data?.slice(0, 5) || [];
-
+console.log("predictions:", predictions);
     const res = await axios.post(`${BASE_URL}/rapport-ia`, {
       kpis,
       topCandidats: kpis?.topCandidats || [],
@@ -31,6 +34,7 @@ const genererRapport = async () => {
     });
     setRapport(res.data.rapport);
   } catch (e) {
+    console.error("Erreur détaillée:", e.response?.data || e.message);
     setRapport("Erreur lors de la génération du rapport.");
   }
   setLoadingRapport(false);

@@ -16,6 +16,10 @@ app.get('/test', (req, res) => {
   res.json({ ok: true });
 });
 
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'ok' });
+});
+
 app.use('/api/stats', statsRoutes);
 
 app.listen(PORT, () => {
