@@ -18,5 +18,6 @@ router.get('/tendance-techno',   stats.getTendanceTechno);
 router.get('/concurrents',       stats.getConcurrentsFuturs); 
 router.get('/zones',             stats.getZonesStrategiques); 
 router.post('/ajouter',          stats.ajouterBrevet);
+router.post('/rapport-ia', stats.genererRapportIA);
 
 module.exports = router;

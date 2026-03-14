@@ -5,10 +5,36 @@ import { SkeletonCard, SkeletonChart } from "../Skeleton";
 
 const YEAR_COLORS = ["#10b981", "#558ef7", "#7c3aed"];
 
+
+
 function YearChart() {
   const [kpis, setKpis] = useState(null);
   const [loading, setLoading] = useState(true);
   const [hoveredCard, setHoveredCard] = useState(null);
+  const [rapport, setRapport] = useState('');
+  const [loadingRapport, setLoadingRapport] = useState(false);
+  const [showRapport, setShowRapport] = useState(false);
+
+const genererRapport = async () => {
+  setLoadingRapport(true);
+  setShowRapport(true);
+  try {
+    // Récupère les prédictions depuis l'API
+    const predRes = await axios.get(`${BASE_URL}/regression`);
+    const predictions = predRes.data?.slice(0, 5) || [];
+
+    const res = await axios.post(`${BASE_URL}/rapport-ia`, {
+      kpis,
+      topCandidats: kpis?.topCandidats || [],
+      tendances: kpis?.parAnnee || [],
+      predictions
+    });
+    setRapport(res.data.rapport);
+  } catch (e) {
+    setRapport("Erreur lors de la génération du rapport.");
+  }
+  setLoadingRapport(false);
+};
 
   useEffect(() => {
  const fetchKPIs = async () => {
@@ -196,6 +222,71 @@ function YearChart() {
             </Bar>
           </BarChart>
         </ResponsiveContainer>
+                    <button
+              onClick={genererRapport}
+              style={{
+                background: 'linear-gradient(135deg, #7C3AED, #A855F7)',
+                color: 'white',
+                border: 'none',
+                borderRadius: '8px',
+                padding: '10px 20px',
+                cursor: 'pointer',
+                fontWeight: '600',
+                fontSize: '0.9rem',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                margin: '16px auto'
+              }}
+            >
+              ✨ Générer rapport IA
+            </button>
+            {showRapport && (
+  <div style={{
+    position: 'fixed', inset: 0,
+    background: 'rgba(0,0,0,0.6)',
+    zIndex: 1000,
+    display: 'flex', alignItems: 'center', justifyContent: 'center'
+  }}>
+    <div style={{
+      background: '#1E1B4B',
+      border: '1px solid #7C3AED',
+      borderRadius: '12px',
+      padding: '32px',
+      maxWidth: '700px',
+      width: '90%',
+      maxHeight: '80vh',
+      overflowY: 'auto',
+      position: 'relative'
+    }}>
+      <button
+        onClick={() => setShowRapport(false)}
+        style={{
+          position: 'absolute', top: '12px', right: '16px',
+          background: 'none', border: 'none',
+          color: '#A855F7', fontSize: '1.4rem', cursor: 'pointer'
+        }}
+      >✕</button>
+      <h2 style={{ color: '#A855F7', marginBottom: '16px', fontSize: '1.1rem' }}>
+        ✨ Rapport d'Analyse IA — Prédictions 2027
+      </h2>
+      {loadingRapport ? (
+        <div style={{ color: '#94a3b8', textAlign: 'center', padding: '40px' }}>
+          ⏳ Génération en cours...
+        </div>
+      ) : (
+        <p style={{
+          color: '#e2e8f0',
+          lineHeight: '1.8',
+          fontSize: '0.95rem',
+          whiteSpace: 'pre-wrap'
+        }}>
+          {rapport}
+        </p>
+      )}
+    </div>
+  </div>
+)}
       </div>
     </div>
   );

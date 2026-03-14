@@ -561,3 +561,49 @@ exports.ajouterBrevet = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+
+exports.genererRapportIA = async (req, res) => {
+  try {
+    const { kpis, topCandidats, tendances, predictions } = req.body;
+
+    const prompt = `Tu es un expert en analyse de propriété intellectuelle.
+Voici les données d'une base de ${kpis?.total || '200 000+'} brevets mondiaux (2024-2026) :
+
+TOP DÉPOSANTS :
+${(topCandidats || []).slice(0,5).map((c,i) => `${i+1}. ${c._id} : ${c.count} brevets`).join('\n')}
+
+ÉVOLUTION PAR ANNÉE :
+${(kpis?.parAnnee || []).map(a => `${a._id} : ${a.total} brevets`).join('\n')}
+
+PRÉDICTIONS 2027 (régression linéaire) :
+${(predictions || []).slice(0,5).map(p => `${p.candidat} : ${p.pred2027} brevets prévus`).join('\n')}
+
+Rédige un rapport d'analyse concurrentielle en français en 3 paragraphes :
+1. Panorama général du marché 2024-2026
+2. Analyse des leaders et dynamiques concurrentielles  
+3. Perspectives 2027 et recommandations stratégiques
+
+Sois précis, professionnel, cite les chiffres clés.`;
+
+    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.GROQ_API_KEY}`
+      },
+      body: JSON.stringify({
+        model: 'llama-3.3-70b-versatile',  // gratuit et puissant
+        max_tokens: 1024,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+
+    const data = await response.json();
+    const rapport = data.choices?.[0]?.message?.content || "Erreur de génération.";
+    res.json({ rapport });
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
